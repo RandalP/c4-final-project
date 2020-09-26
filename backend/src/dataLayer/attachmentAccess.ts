@@ -1,11 +1,10 @@
 import 'source-map-support/register'
 import * as AWS from 'aws-sdk'
+import { S3 } from 'aws-sdk'
 import * as AWSXRay from 'aws-xray-sdk'
 
 const XAWS = AWSXRay.captureAWS(AWS)
-const s3 = new XAWS.S3({
-  signatureVersion: 'v4'
-})
+const s3 = createS3()
 
 export class AttachmentAccess {
   constructor(
@@ -26,4 +25,11 @@ export class AttachmentAccess {
 
     return [attachmentUrl, uploadUrl];
   }
+}
+
+function createS3(): S3 {
+  const aws = (process.env.IS_OFFLINE ? AWS : XAWS)
+  return new aws.S3({
+    signatureVersion: 'v4'
+  })
 }

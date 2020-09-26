@@ -1,7 +1,7 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import middy from 'middy'
-import { cors } from 'middy/middlewares'
+import { cors, warmup } from 'middy/middlewares'
 import { getUserId } from '../utils'
 import { deleteTodoItem } from '../../businessLogic/todoItem'
 
@@ -24,4 +24,4 @@ handler.use(
   cors({
     credentials: true
   })
-)
+).use(warmup())

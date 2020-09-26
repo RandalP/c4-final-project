@@ -94,7 +94,7 @@ export class TodoItemAccess {
 
   async updateTodoAttachment(userId: string, todoId: string, attachmentUrl: string) {
     // Update the attachment URL for am existing TODO item.
-    const todo = await this.docClient.update({
+    await this.docClient.update({
       TableName: this.TodoTable,
       Key: {
         userId, todoId
@@ -105,7 +105,11 @@ export class TodoItemAccess {
       },
       ReturnValues: "UPDATED_NEW"
     }).promise()
-    console.log("Updated url for todo", todo)
+      .then((data) => {
+        console.log("Updated URL for TODO:", JSON.stringify(data, null, 2));
+      }, (err) => {
+        console.error("Failed to update URL for TODO. Error JSON:", JSON.stringify(err, null, 2));
+      })
   }
 }
 

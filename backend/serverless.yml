@@ -7,6 +7,7 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-plugin-warmup
 
 package:
   individually: true
@@ -45,6 +46,13 @@ custom:
       port: ${self:provider.environment.DYNAMO_DB_PORT}
       inMemory: true
       migrate: true
+
+  warmup:
+    enabled: true
+    name: 'warm-up-function'
+    payload:
+      isWarmup: true
+    concurrency: 2
 
 functions:
 
