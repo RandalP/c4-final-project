@@ -5,6 +5,11 @@ plugins:
   - serverless-webpack
   - serverless-reqvalidator-plugin
   - serverless-iam-roles-per-function
+  - serverless-dynamodb-local
+  - serverless-offline
+
+package:
+  individually: true
 
 provider:
   name: aws
@@ -13,11 +18,16 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'ap-southeast-2'}
 
+tracing:
+  lambda: true
+  apiGateway: true
+
   environment:
     TODO_TABLE: Todo-${self:provider.stage}
     TODO_INDEX_NAME: TodoIdIndex
     IMAGES_S3_BUCKET: randalp-todo-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    DYNAMO_DB_PORT: 8000
 
   iamRoleStatements:
       - Effect: Allow
@@ -26,6 +36,16 @@ provider:
         Resource:
           - '*'
       
+custom:
+  serverless-offline:
+    port: 3003
+
+  dynamodb:
+    start:
+      port: ${self:provider.environment.DYNAMO_DB_PORT}
+      inMemory: true
+      migrate: true
+
 functions:
 
   Auth:
