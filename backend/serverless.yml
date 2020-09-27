@@ -3,7 +3,6 @@ service:
 
 plugins:
   - serverless-webpack
-  - serverless-reqvalidator-plugin
   - serverless-iam-roles-per-function
   - serverless-dynamodb-local
   - serverless-offline
@@ -87,6 +86,9 @@ functions:
           cors: true
           authorizer: Auth
           reqValidatorName: RequestBodyValidator
+          request:
+            schema:
+              'application/json': ${file(models/create-todo-request.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -107,6 +109,9 @@ functions:
           cors: true
           authorizer: Auth
           reqValidatorName: RequestBodyValidator
+          request:
+            schema:
+              'application/json': ${file(models/update-todo-request.json)}
     iamRoleStatements:
       - Effect: Allow
         Action:

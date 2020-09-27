@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Fields in a request to create a single TODO item.",
+  "title": "CreateTodoRequest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "name"
+    },
+    "dueDate": {
+      "type": "string",
+      "title": "dueDate"
+    }
+  },
+  "required": [
+    "dueDate",
+    "name"
+  ],
+  "additionalProperties": false
+}

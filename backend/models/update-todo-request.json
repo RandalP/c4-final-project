@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Fields in a request to update a single TODO item.",
+  "title": "UpdateTodoRequest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "name"
+    },
+    "dueDate": {
+      "type": "string",
+      "title": "dueDate"
+    },
+    "done": {
+      "type": "boolean",
+      "title": "done"
+    }
+  },
+  "additionalProperties": false
+}
