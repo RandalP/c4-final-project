@@ -35,11 +35,6 @@ export class TodoItemAccess {
       TableName: this.TodoTable,
       Item: todoItem
     }).promise()
-      .then((data) => {
-        console.log("Save TODO succeeded:", JSON.stringify(data, null, 2));
-      }, (err) => {
-        console.error("Unable to save TODO. Error JSON:", JSON.stringify(err, null, 2));
-      })
 
     return todoItem
   }
@@ -57,16 +52,11 @@ export class TodoItemAccess {
         }
       }
     ).promise()
-      .then((data) => {
-        console.log("Delete TODO succeeded:", JSON.stringify(data, null, 2));
-      }, (err) => {
-        console.error("Unable to delete TODO. Error JSON:", JSON.stringify(err, null, 2));
-      })
   }
 
-  async updateTodoItem(userId: string, todoId: string, updateTodo: UpdateTodoRequest) {
+  async updateTodoItem(userId: string, todoId: string, updateTodo: UpdateTodoRequest): Promise<any> {
     // NB: 'name' is a keyword, so it needs to be mapped via ExpressionAttributeNames
-    this.docClient.update(
+    return this.docClient.update(
       {
         TableName: this.TodoTable,
         Key: {
@@ -85,11 +75,6 @@ export class TodoItemAccess {
         ReturnValues: "UPDATED_NEW"
       }
     ).promise()
-      .then((data) => {
-        console.log("Update TODO succeeded:", JSON.stringify(data, null, 2));
-      }, (err) => {
-        console.error("Unable to update TODO. Error JSON:", JSON.stringify(err, null, 2));
-      })
   }
 
   async updateTodoAttachment(userId: string, todoId: string, attachmentUrl: string) {
@@ -105,11 +90,6 @@ export class TodoItemAccess {
       },
       ReturnValues: "UPDATED_NEW"
     }).promise()
-      .then((data) => {
-        console.log("Updated URL for TODO:", JSON.stringify(data, null, 2));
-      }, (err) => {
-        console.error("Failed to update URL for TODO. Error JSON:", JSON.stringify(err, null, 2));
-      })
   }
 }
 

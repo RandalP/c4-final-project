@@ -8,16 +8,25 @@ import { deleteTodoItem } from '../../businessLogic/todoItem'
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Caller event', event)
 
-  const userId = getUserId(event)
-  const todoId = event.pathParameters.todoId
+  try {
+    const userId = getUserId(event)
+    const todoId = event.pathParameters.todoId
 
-  await deleteTodoItem(userId, todoId)
+    await deleteTodoItem(userId, todoId)
 
-  return {
-    statusCode: 204,
-    body: undefined
+    return {
+      statusCode: 204,
+      body: undefined
+    }
   }
-
+  catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        item: err
+      })
+    }
+  }
 })
 
 handler.use(

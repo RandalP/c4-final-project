@@ -8,14 +8,24 @@ import { getTodoItems } from '../../businessLogic/todoItem'
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Caller event', event)
 
-  const userId = getUserId(event)
-  const todoItems = await getTodoItems(userId)
+  try {
+    const userId = getUserId(event)
+    const todoItems = await getTodoItems(userId)
 
-  return {
-    statusCode: 201,
-    body: JSON.stringify({
-      items: todoItems
-    })
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        items: todoItems
+      })
+    }
+  }
+  catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        item: err
+      })
+    }
   }
 })
 

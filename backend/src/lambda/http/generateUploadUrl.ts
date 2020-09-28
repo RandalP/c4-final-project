@@ -8,16 +8,26 @@ import { updateUrls } from '../../businessLogic/todoItem'
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log('Caller event', event)
 
-  const userId = getUserId(event)
-  const todoId = event.pathParameters.todoId
+  try {
+    const userId = getUserId(event)
+    const todoId = event.pathParameters.todoId
 
-  const uploadUrl = await updateUrls(userId, todoId)
+    const uploadUrl = await updateUrls(userId, todoId)
 
-  return {
-    statusCode: 201,
-    body: JSON.stringify({
-      uploadUrl
-    })
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        uploadUrl
+      })
+    }
+  }
+  catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        item: err
+      })
+    }
   }
 })
 
